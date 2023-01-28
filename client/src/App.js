@@ -4,8 +4,8 @@ import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./components/Home";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
-import { ToastContainer } from "react-toastify";
 import { reducer, initialState } from "./reducer/userReducer";
+import Thumbnail from "./components/Thumbnail";
 
 export const UserContext = createContext();
 
@@ -27,6 +27,7 @@ const Routing = () => {
       <Route exact path="/" element={<Signin />}></Route>
       <Route path="/home" element={<Home />}></Route>
       <Route path="/signup" element={<Signup />}></Route>
+      <Route path="/thumbnail" element={<Thumbnail />}></Route>
     </Routes>
   );
 };
