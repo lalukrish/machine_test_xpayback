@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import M from "materialize-css";
 
-const Thumbnail = () => {
+const Myimages = () => {
   const history = useNavigate();
   const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/thumbnails", {
+    fetch("http://localhost:5000/myimages", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -14,7 +14,7 @@ const Thumbnail = () => {
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-        setData(result.thumbnails);
+        setData(result.myimages);
       });
   }, []);
   return (
@@ -26,12 +26,12 @@ const Thumbnail = () => {
           history("/home");
         }}
       >
-        create new thumbnail
+        Host New Image
       </button>
       {data.map((item) => {
         return (
           <div className="card home-card" key={item._id}>
-            <div className="card-images w-40 h-40 center right-2">
+            <div className="card-images">
               <img src={item.photo} alt="no internet" />
             </div>
             <div className="card-content">
@@ -44,4 +44,4 @@ const Thumbnail = () => {
   );
 };
 
-export default Thumbnail;
+export default Myimages;

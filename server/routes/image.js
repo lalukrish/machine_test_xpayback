@@ -36,4 +36,15 @@ router.get("/thumbnails", requireLogin, (req, res) => {
     });
 });
 
+router.get("/myimages", requireLogin, (req, res) => {
+  Image.find({ uploadBy: req.user._id })
+    .populate("uploadBy", "_id name")
+    .then((myimages) => {
+      res.json({ myimages });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 module.exports = router;

@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import M from "materialize-css";
+import { UserContext } from "../App";
+import Thumbnail from "./Thumbnail";
+import "./style.css";
 const Home = () => {
   const history = useNavigate();
-
+  const { state, dispatch } = useContext(UserContext);
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
+
   useEffect(() => {
     if (url) {
       //iamge uploading
@@ -61,72 +65,97 @@ const Home = () => {
   };
 
   return (
-    <div style={{ maxWidth: "800px", margin: "0px auto" }}>
+    <div className="grid grid-cols-1 sm:grid-cols-1 h-screeen w-full">
       <div
+        className="w-full h-full"
         style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          borderBottom: "1px solid grey",
+          backgroundColor: "powderblue",
+          maxWidth: "1000px",
+          margin: "0px auto",
         }}
       >
-        <div>
-          <div
-            className="card input-field"
-            style={{
-              margin: "10px auto",
-              maxWidth: "500px",
-              padding: "20px",
-              textAlign: "center",
+        <div
+          className="inset-y-40 right bg-blue-500  hover:bg-blue-700 text-white  font-bold py-2 px-4 rounded"
+          style={{
+            maxWidth: "90px",
+            right: "0px",
+          }}
+        >
+          <button
+            onClick={(e) => {
+              localStorage.clear();
+              dispatch({ type: "CLEAR" });
+              history("/");
             }}
           >
-            <input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              type="text"
-              placeholder="title"
-            />
-            <div className="file-field input-field">
-              <div class="btn">
-                <span>file</span>
-                <input
-                  type="file"
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
-              </div>
-              <div className="file-path-wrapper">
-                <input className="file-path validate" type="text" />
-              </div>
-            </div>
-            <button className="btn #2196f3 blue" onClick={() => PostDetails()}>
-              upload
-            </button>
-          </div>
+            Logout
+          </button>
+        </div>
+        <div>
+          <div>
+            <h1 className="center font-bold">Free Image Hosting</h1>
+            <div
+              className="card input-field w-full h-full"
+              style={{
+                top: "70px",
 
-          <div>
-            <img
-              style={{
-                width: "30px",
-                height: "30px",
-                borderRadius: "80px",
-                marginTop: "25px",
-                margin: "20px 60px",
-                justifyContent: "space-between",
-              }}
-              src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAHsAUgMBIgACEQEDEQH/xAAcAAEAAQUBAQAAAAAAAAAAAAAABAEDBQYHCAL/xAAvEAABAwIEBAYBBAMAAAAAAAABAAIDBBEFBiExEhNBUQcUMmFxgZEiobHBI1Ji/8QAGAEBAQEBAQAAAAAAAAAAAAAAAAECAwT/xAAaEQEBAQEBAQEAAAAAAAAAAAAAEQECITED/9oADAMBAAIRAxEAPwDjAargarjWL7DF1jjVrgVQ1XxGvsRqxKjhicClCIr6ER7JConLVOWp3ITkpFqAY1HkgIuQsq6LTZY+ueG/42nU+q3RZ6zI1zu1DRURc22bbErrYfZS44fZX20/svRHnQWwK6yn9lkI6Yk7KXHR9wrDPWKZTE9FdFJpssu2mA6K42lJ6KN5jC+W02Xyab2WdNL7L4NKToGqkaziLORSSyXIIFgR3OgWsnXU6lbpmiDlYRIdPU0a/K0tcf0+t854oiIsNN+hp79FOipLjZTqekuRoshFSbCy9WuGYxkVHbYKXHRuPRZeGiA6XUtlLpqLBZ3p0zGGjogNxdXPJXG1gswYGt2F1TkucpV8YjybW9FR1LbYLONozuR+VbqYeVBLI1vGWMLuHvYKVY5h4hysiZS0YcOYXGVzewAsP5P4WkqTiVfUYnWSVlW4OlkNzYWAHQAdgoy5bt1RFRVUHd6aAC1gp8dM0AE7K9DSEbBZCCm01F123XPEWFjR6Wq7yi7usgykHZSI6bpZZrTCS+Wp3RCpniidM8MjEjw0yO/1F9z7BTWU46Bcix/MTMbz5Qw4jE1mH4diJjjEXrI4wLkne5aD8aDuu5imAOu6lVjhSt3IJWveIUjqHJuKTRngJiEYI/6cG/2t15IGwXKfHXFWRUlDgjBKJZHipeRo0sHE0D311+gpuq42iaIsgiXRB6sip2dlJZAOyvRx+ykMiCVIssiHZXWx2OikNiCuCIIrynmqNuGZ1xSKMCMQ4g8su69v13Gq9O0NVSYlTNqqCphqYH7SQvDmn7C5/RZZwzGfGPMr62liq6aCkh44pow5jZXsZ+9mk/ZU3JGD0OGeJmaqbCafy1HTU1MzksLuEueOK+p+f3Qb4I1548bsVdXZzfRcrgZh0TYQTu8uHGT8fqH4XUvE/wAQqXK1FJQ4bJHNjMoLQ0Ov5YW9TvfsP6XnCpqJqqeSeplfNNI4ufJI4uc4nckncoLaoiICIiDMU+aMwU3D5fHcTYG7NFW+34vZbxlPxhxOhlZDmJhr6XYzRtDZmfwHfdvlcwRSK9RU3iHlGZjXNx+lbcA2k4mkfIIUxmd8rO2zFhn3UtC8o3RSLXofKOZ8Bp84ZxlfitJwTzQSxSGZvDK0R2PAb/qsdNFyTOecpsXzbW4zgk1bh0dQ1jLRzFj3hoABdw27XtrZami0ir3ue5znuLnON3OJuSe5XyiIgiIgIiICIiBdVVFVBRERAREQEREBERARUVUBERAREQEREBFREBERB//Z"
-            />
-          </div>
-          <div>
-            <h3
-              style={{
-                marginTop: "25px",
-                marginLeft: "1px",
-                marginRight: "200px",
-                justifyContent: "space-between",
+                margin: "10px auto",
+                maxWidth: "500px ",
+                maxHeight: "500px",
+                padding: "20px",
+                textAlign: "center",
               }}
             >
-              lallu
-            </h3>
+              <h6>please enter the title and upload the file</h6>
+              <input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                type="text"
+                placeholder="title"
+              />
+              <div className="file-field input-field w-full h-full">
+                <div class="btn">
+                  <span>file</span>
+                  <input
+                    type="file"
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
+                </div>
+                <div className="file-path-wrapper">
+                  <input className="file-path validate" type="text" />
+                </div>
+              </div>
+              <button
+                className="btn #2196f3 blue"
+                onClick={() => PostDetails()}
+              >
+                upload
+              </button>
+            </div>
           </div>
+        </div>
+
+        <div className="top right-2 ">
+          <button
+            className="   my-10  py-3 bg-teal-500 shadow-lg shadow-teal-500/20 hover:shadow-teal-500/20 text-white font-semibold rounded-lg"
+            onClick={(e) => {
+              e.preventDefault();
+              history("/thumbnail");
+            }}
+          >
+            All thumbnail
+          </button>
+        </div>
+        <div className="h-full center ">
+          <button
+            className="   my-10  py-3 bg-teal-500 shadow-lg shadow-teal-500/20 hover:shadow-teal-500/20 text-white font-semibold rounded-lg"
+            onClick={(e) => {
+              e.preventDefault();
+              history("/myimages");
+            }}
+          >
+            my images
+          </button>
         </div>
       </div>
     </div>

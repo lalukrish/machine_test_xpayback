@@ -6,6 +6,7 @@ import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import { reducer, initialState } from "./reducer/userReducer";
 import Thumbnail from "./components/Thumbnail";
+import Myimages from "./components/Myimages";
 
 export const UserContext = createContext();
 
@@ -16,8 +17,7 @@ const Routing = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     console.log(typeof user, user);
     if (user) {
-      //  dispatch({ type: "USER", payload: user });
-      history("/home");
+      dispatch({ type: "USER", payload: user });
     } else {
       history("/");
     }
@@ -28,6 +28,7 @@ const Routing = () => {
       <Route path="/home" element={<Home />}></Route>
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/thumbnail" element={<Thumbnail />}></Route>
+      <Route path="/myimages" element={<Myimages />}></Route>
     </Routes>
   );
 };
@@ -35,7 +36,7 @@ const Routing = () => {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <div style={{ backgroundColor: "#FF0000" }}>
+    <div style={{ backgroundColor: "#0E0D0D" }}>
       <UserContext.Provider value={{ state, dispatch }}>
         <BrowserRouter>
           <Routing />
